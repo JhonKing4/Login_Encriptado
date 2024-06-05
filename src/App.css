@@ -1,38 +1,126 @@
-.App {
-  text-align: center;
+/* app.css */
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #0d0d0d;
+    color: #00ff00;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    border: 1px solid #00ff00;
+    background-color: rgba(26, 26, 26, 0.9);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.panel {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.panel:not(:last-child) {
+    border-right: 1px solid #00ff00;
 }
 
-.App-link {
-  color: #61dafb;
+h1, h2 {
+    color: #00ff00;
+    text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+label {
+    margin-bottom: 10px;
+    color: #00ff00;
+}
+
+input[type="text"], input[type="password"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #333333;
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    color: #00ff00;
+}
+
+button {
+    padding: 10px;
+    border: 1px solid #00ff00;
+    background-color: #333333;
+    color: #00ff00;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #444444;
+}
+
+input[type="file"] {
+    margin-bottom: 15px;
+    color: #00ff00;
+}
+
+textarea {
+    resize: none;
+    background-color: #333333;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+}
+
+p {
+    margin: 0;
+    padding: 10px;
+    background-color: #330000;
+    color: #ff0000;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+}
+
+@media (max-width: 800px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .panel {
+        border-right: none;
+        border-bottom: 1px solid #00ff00;
+    }
+}
+
+/* Binary animation */
+@keyframes binaryRain {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+.binary {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.binary span {
+    position: absolute;
+    color: #00ff00;
+    font-size: 18px;
+    animation: binaryRain linear infinite;
 }

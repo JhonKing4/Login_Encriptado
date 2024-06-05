@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CryptoJS from 'crypto-js';
+import './App.css';
 import { js2xml, xml2js } from 'xml-js';
 
 const EncryptForm = () => {
@@ -45,6 +46,28 @@ const EncryptForm = () => {
 
     const xml = js2xml(xmlData, { compact: true, ignoreComment: true, spaces: 4 });
     setEncryptedData(xml);
+    downloadXML(xml);
+  };
+
+  const downloadXML = (xml) => {
+    const blob = new Blob([xml], { type: 'application/xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'encryptedData.xml';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      setEncryptedData(content);
+    };
+    reader.readAsText(file);
   };
 
   const handleDecrypt = () => {
@@ -58,10 +81,28 @@ const EncryptForm = () => {
       setError('Error al descifrar los datos.');
     }
   };
+  useEffect(() => {
+    const binaryContainer = document.getElementById('binary-container');
+    const columns = Math.floor(window.innerWidth / 20);
+
+    for (let i = 0; i < columns; i++) {
+        const span = document.createElement('span');
+        span.style.left = `${i * 20}px`;
+        span.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        span.textContent = Math.random() > 0.5 ? '0' : '1';
+        binaryContainer.appendChild(span);
+
+        setInterval(() => {
+            span.textContent = Math.random() > 0.5 ? '0' : '1';
+        }, 500);
+    }
+}, []);
+
 
   return (
     <div>
-      <h1>Encrypt Form</h1>
+      <div className="binary" id="binary-container"></div>
+      <h1>ENCRIPTAR:</h1>
       <div>
         <label>Username:</label>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -76,9 +117,10 @@ const EncryptForm = () => {
         <h2>Encrypted Data:</h2>
         <textarea value={encryptedData} readOnly rows="10" cols="50" />
       </div>
+      <input type="file" accept=".xml" onChange={handleFileUpload} />
       <button onClick={handleDecrypt}>Decrypt</button>
       <div>
-        <h2>Decrypted Data:</h2>
+        <h2>DESENCRIPTACIÓN:</h2>
         <p>{decryptedData}</p>
       </div>
     </div>
